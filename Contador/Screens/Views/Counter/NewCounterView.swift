@@ -12,6 +12,10 @@ struct NewCounterView: View {
     @Binding var showSheet: Bool
     @Bindable var counter: Counter
     
+    var hasName: Bool {
+        counter.name.isEmpty
+    }
+    
     var body: some View {
         Form{
             TextField("", text: $counter.name, prompt: Text("Counter name"))
@@ -33,7 +37,7 @@ struct NewCounterView: View {
             Button("Add new counter"){
                 counterService.addCounter(counter)
                 showSheet = false
-            }
+            }.disabled(hasName)
         }
         .navigationTitle("New counter")
         .navigationBarTitleDisplayMode(.automatic)
