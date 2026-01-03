@@ -10,8 +10,12 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     
+    var counterService: CounterService {
+        CounterService(modelContext: modelContext)
+    }
+    
     var body: some View {
-        Text("Hello world")
+        CounterListingScreen(counterService: counterService)
     }
 }
 

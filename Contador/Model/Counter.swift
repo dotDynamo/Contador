@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 class Counter {
@@ -15,7 +16,7 @@ class Counter {
     var emoji: String
     var count: Int
     
-    init(name: String, subtitle: String = "", emoji: String, count: Int = 0) {
+    init(name: String = "", subtitle: String = "", emoji: String = "", count: Int = 0) {
         self.name = name
         self.subtitle = subtitle
         self.emoji = emoji

@@ -4,15 +4,38 @@
 //
 //  Created by Diego Herrera on 2026/01/01.
 //
-
+import SwiftData
 import SwiftUI
 
 struct CounterListingScreen: View {
+    @Query(sort: \Counter.name) private var counters: [Counter]
+    
+    @State var showNewCounterSheet: Bool = false
+    
+    let counterService: CounterService
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack{
+            List{
+                ForEach(counters) { counter in
+                    CounterView(
+                        counter: counter
+                    )
+                }
+            }
+            .navigationTitle("Contador")
+            .toolbar{
+                Button("New Counter"){
+                    showNewCounterSheet = true
+                }
+            }
+            .sheet(isPresented: $showNewCounterSheet){
+                NavigationStack{
+                    let newCounter = Counter()
+                    NewCounterView(counterService: counterService, showSheet: $showNewCounterSheet, counter: newCounter)
+                }
+            }
+            
+        }
     }
-}
-
-#Preview {
-    CounterListingScreen()
 }

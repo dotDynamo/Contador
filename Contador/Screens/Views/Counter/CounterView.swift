@@ -15,7 +15,6 @@ struct CounterView: View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
                 .fill(.white)
-                .stroke(.red)
             HStack{
                 Text(counter.emoji)
                     .font(.system(size: 50))
@@ -31,7 +30,7 @@ struct CounterView: View {
 }
 
 #Preview {
-    CounterView(counter: Counter(name: "Meltdowns",
+    CounterView(counter: Counter(name: "Carita",
                                  subtitle: "Este es un contador de ejemplo",
                                  emoji: "🫠",
                                  count: 0))
