@@ -23,9 +23,15 @@ struct CounterListingScreen: View {
                     )
                 }
             }
+            .onDelete{ indexSet in
+                indexSet.map { counters[$0] }.forEach(counterService.deleteCounter)
+            }
         }
-        .navigationDestination(for: Counter.self, destination: EditCounterView.init)
+        .navigationDestination(for: Counter.self){counter in
+            EditCounterView(counter: counter, counterService: counterService)
+        }
         .navigationTitle("Contador")
+
         .toolbar{
             Button("New Counter"){
                 showNewCounterSheet = true

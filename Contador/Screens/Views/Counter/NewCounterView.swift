@@ -31,7 +31,7 @@ struct NewCounterView: View {
                     .labelsHidden()
             }
             Button("Add new counter"){
-                counterService.addCounter(counter: counter)
+                counterService.addCounter(counter)
                 showSheet = false
             }
         }

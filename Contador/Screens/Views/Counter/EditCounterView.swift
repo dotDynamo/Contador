@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct EditCounterView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @Bindable var counter: Counter
+    
+    var counterService: CounterService
     
     var body: some View {
         Form{
@@ -28,11 +32,18 @@ struct EditCounterView: View {
                 ))
                     .keyboardType(.numberPad)
             }
+            Button("Delete Counter"){
+                counterService.deleteCounter(counter)
+                dismiss()
+            }
         }
         .navigationTitle("Edit Counter")
     }
 }
 
 #Preview {
-    EditCounterView(counter: Counter(name: "Ejemplo para editar"))
+    @Previewable @Environment(\.modelContext) var modelContext
+    let counterService = CounterService(modelContext: modelContext)
+    EditCounterView(counter: Counter(name: "Ejemplo para editar"),
+                    counterService: counterService)
 }
