@@ -16,9 +16,8 @@ struct NewCounterView: View {
         Form{
             TextField("", text: $counter.name, prompt: Text("Counter name"))
             TextField("", text: $counter.subtitle, prompt: Text("Counter description"))
-            HStack{
-                Stepper("Initial count", value: $counter.count, in: 0...1000)
-                Spacer()
+            HStack(spacing:20){
+                Text("Initial count")
                 TextField("", text: Binding(
                     get: {String(counter.count)},
                     set: {newValue in
@@ -28,6 +27,8 @@ struct NewCounterView: View {
                     }
                 ))
                     .keyboardType(.numberPad)
+                Stepper("", value: $counter.count, in: 0...1000)
+                    .labelsHidden()
             }
             Button("Add new counter"){
                 counterService.addCounter(counter: counter)
