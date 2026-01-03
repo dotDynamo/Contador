@@ -15,32 +15,33 @@ struct CounterListingScreen: View {
     let counterService: CounterService
     
     var body: some View {
-        List{
-            ForEach(counters) { counter in
-                NavigationLink(value: counter){
-                    CounterView(
-                        counter: counter
-                    )
+        NavigationStack{
+            VStack{
+                if !counters.isEmpty{
+                    List{
+                        ForEach(counters) { counter in
+                            NavigationLink(value: counter){
+                                CounterView(
+                                    counter: counter)
+                            }
+                        }
+                    }.navigationDestination(for: Counter.self){counter in
+                        EditCounterView(counter: counter, counterService: counterService)
+                    }
+                }else {
+                    Text("No counters yet.\nUse the New Counter button to add one.")
                 }
+                
             }
-            .onDelete{ indexSet in
-                indexSet.map { counters[$0] }.forEach(counterService.deleteCounter)
+            .navigationTitle("Contador")
+            .toolbar{
+                Button("New Counter"){ showNewCounterSheet = true }
             }
-        }
-        .navigationDestination(for: Counter.self){counter in
-            EditCounterView(counter: counter, counterService: counterService)
-        }
-        .navigationTitle("Contador")
-
-        .toolbar{
-            Button("New Counter"){
-                showNewCounterSheet = true
-            }
-        }
-        .sheet(isPresented: $showNewCounterSheet){
-            NavigationStack{
-                let newCounter = Counter()
-                NewCounterView(counterService: counterService, showSheet: $showNewCounterSheet, counter: newCounter)
+            .sheet(isPresented: $showNewCounterSheet){
+                NavigationStack{
+                    let newCounter = Counter()
+                    NewCounterView(counterService: counterService, showSheet: $showNewCounterSheet, counter: newCounter)
+                }
             }
         }
     }
