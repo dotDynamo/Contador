@@ -14,6 +14,8 @@ struct EditCounterView: View {
     
     var counterService: CounterService
     
+    @State private var showConfirmation: Bool = false
+    
     var body: some View {
         Form{
             Section("General info"){
@@ -32,9 +34,14 @@ struct EditCounterView: View {
                 ))
                     .keyboardType(.numberPad)
             }
-            Button("Delete Counter"){
-                counterService.deleteCounter(counter)
-                dismiss()
+            Button("Delete Counter", role: .destructive){
+                showConfirmation = true
+            }.confirmationDialog("Confirm", isPresented: $showConfirmation){
+                Button("Cancel"){ showConfirmation = false}
+                Button("Delete", role: .destructive) {
+                    counterService.deleteCounter(counter)
+                    dismiss()
+                }
             }
         }
         .navigationTitle("Edit Counter")
