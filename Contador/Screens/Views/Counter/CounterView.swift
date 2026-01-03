@@ -15,8 +15,13 @@ struct CounterView: View {
         HStack{
             Text(counter.emoji)
                 .font(.system(size: 50))
-            Text(counter.name)
-                .padding(.leading, 15)
+            VStack(alignment: .leading){
+                Text(counter.name)
+                if !counter.subtitle.isEmpty{
+                    Text(counter.subtitle)
+                }
+            }
+            .padding(.leading, 15)
             Spacer()
             Text(String(counter.count))
                 .font(.system(size: 30))
@@ -27,7 +32,7 @@ struct CounterView: View {
 
 #Preview {
     CounterView(counter: Counter(name: "Carita",
-                                 subtitle: "Este es un contador de ejemplo",
-                                 emoji: "🫠",
-                                 count: 0))
+                                 subtitle: "Hola",
+                                 emoji: "😃",
+                                 count: 2))
 }
