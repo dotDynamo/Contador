@@ -15,7 +15,9 @@ struct ContentView: View {
     }
     
     var body: some View {
-        CounterListingScreen(counterService: counterService)
+        NavigationStack{
+            CounterListingScreen(counterService: counterService)
+        }
     }
 }
 

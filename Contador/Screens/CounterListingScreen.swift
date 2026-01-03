@@ -15,27 +15,27 @@ struct CounterListingScreen: View {
     let counterService: CounterService
     
     var body: some View {
-        NavigationStack{
-            List{
-                ForEach(counters) { counter in
+        List{
+            ForEach(counters) { counter in
+                NavigationLink(value: counter){
                     CounterView(
                         counter: counter
                     )
                 }
             }
-            .navigationTitle("Contador")
-            .toolbar{
-                Button("New Counter"){
-                    showNewCounterSheet = true
-                }
+        }
+        .navigationDestination(for: Counter.self, destination: EditCounterView.init)
+        .navigationTitle("Contador")
+        .toolbar{
+            Button("New Counter"){
+                showNewCounterSheet = true
             }
-            .sheet(isPresented: $showNewCounterSheet){
-                NavigationStack{
-                    let newCounter = Counter()
-                    NewCounterView(counterService: counterService, showSheet: $showNewCounterSheet, counter: newCounter)
-                }
+        }
+        .sheet(isPresented: $showNewCounterSheet){
+            NavigationStack{
+                let newCounter = Counter()
+                NewCounterView(counterService: counterService, showSheet: $showNewCounterSheet, counter: newCounter)
             }
-            
         }
     }
 }
