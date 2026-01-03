@@ -12,20 +12,16 @@ struct CounterView: View {
     let counter: Counter
     
     var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.white)
-            HStack{
-                Text(counter.emoji)
-                    .font(.system(size: 50))
-                Text(counter.name)
-                    .padding(.leading, 15)
-                Spacer()
-                Text(String(counter.count))
-                    .font(.system(size: 30))
-            }
-            .padding()
+        HStack{
+            Text(counter.emoji)
+                .font(.system(size: 50))
+            Text(counter.name)
+                .padding(.leading, 15)
+            Spacer()
+            Text(String(counter.count))
+                .font(.system(size: 30))
         }
+        .padding()
     }
 }
 

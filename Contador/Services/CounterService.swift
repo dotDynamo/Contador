@@ -12,12 +12,11 @@ import SwiftData
 struct CounterService {
     let modelContext: ModelContext
     
-    func addSamples(sampleSize: Int = 5) -> Void{
-        let counter = Counter(name: "Contador \(1)", emoji: "🫠")
+    func addCounter(_ counter: Counter) -> Void{
         modelContext.insert(counter)
     }
     
-    func addCounter(counter: Counter) -> Void{
-        modelContext.insert(counter)
+    func deleteCounter(_ counter: Counter) -> Void{
+        modelContext.delete(counter)
     }
 }
