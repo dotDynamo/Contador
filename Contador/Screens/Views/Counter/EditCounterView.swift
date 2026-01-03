@@ -43,7 +43,7 @@ struct EditCounterView: View {
 
 #Preview {
     @Previewable @Environment(\.modelContext) var modelContext
-    var counterService = CounterService(modelContext: modelContext)
+    let counterService = CounterService(modelContext: modelContext)
     EditCounterView(counter: Counter(name: "Ejemplo para editar"),
                     counterService: counterService)
 }
