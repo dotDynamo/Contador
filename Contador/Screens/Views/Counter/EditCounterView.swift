@@ -19,7 +19,10 @@ struct EditCounterView: View {
     var body: some View {
         Form{
             Section("General info"){
-                TextField("", text: $counter.name)
+                TextField("", text: $counter.name, prompt:
+                            Text("Title field can't be empty")
+                            .foregroundStyle(.red))
+                
                 TextField("", text: $counter.subtitle)
             }
             
@@ -36,6 +39,7 @@ struct EditCounterView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(counter.name.isEmpty ? true : false)
         .navigationTitle("Edit Counter")
     }
 }
