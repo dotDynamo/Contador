@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CounterStepperField: View {
     @Bindable var counter: Counter
+    @FocusState var focusState: Field?
     var title: String
     var body: some View {
         HStack(spacing:20){
@@ -21,7 +22,8 @@ struct CounterStepperField: View {
                     }
                 }
             ))
-                .keyboardType(.numberPad)
+            .focused($focusState, equals: .counter)
+            .keyboardType(.numberPad)
             Stepper("", value: $counter.count, in: 0...1000)
                 .labelsHidden()
         }

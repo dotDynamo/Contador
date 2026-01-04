@@ -16,18 +16,25 @@ struct EditCounterView: View {
     
     @State private var showConfirmation: Bool = false
     
+    @FocusState var isFocused: Field?
+    
     var body: some View {
         Form{
             Section("General info"){
                 TextField("", text: $counter.name, prompt:
                             Text("Title field can't be empty")
                             .foregroundStyle(.red))
+                .focused($isFocused, equals: .name)
+                .onSubmit { isFocused = .description }
+                
                 
                 TextField("", text: $counter.subtitle)
+                    .focused($isFocused, equals: .description)
+                    .onSubmit{ isFocused = .counter}
             }
             
             Section("Counter"){
-                CounterStepperField(counter: counter, title: "count")
+                CounterStepperField(counter: counter, focusState: _isFocused, title: "count")
             }
             Button("Delete Counter", role: .destructive){
                 showConfirmation = true
