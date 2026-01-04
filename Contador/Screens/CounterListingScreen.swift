@@ -24,6 +24,8 @@ struct CounterListingScreen: View {
                                 CounterView(
                                     counter: counter)
                             }
+                        }.onDelete{ indexSet in
+                            indexSet.map { counters[$0] }.forEach(counterService.deleteCounter)
                         }
                     }.navigationDestination(for: Counter.self){counter in
                         EditCounterView(counter: counter, counterService: counterService)
