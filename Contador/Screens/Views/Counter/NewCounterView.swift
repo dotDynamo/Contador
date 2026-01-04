@@ -20,20 +20,7 @@ struct NewCounterView: View {
         Form{
             TextField("", text: $counter.name, prompt: Text("Counter name"))
             TextField("", text: $counter.subtitle, prompt: Text("Counter description"))
-            HStack(spacing:20){
-                Text("Initial count")
-                TextField("", text: Binding(
-                    get: {String(counter.count)},
-                    set: {newValue in
-                        if let value = Int(newValue) {
-                            counter.count = value <= 0 ? 0 : value
-                        }
-                    }
-                ))
-                    .keyboardType(.numberPad)
-                Stepper("", value: $counter.count, in: 0...1000)
-                    .labelsHidden()
-            }
+            CounterStepperField(counter: counter, title: "Initial count")
             Button("Add new counter"){
                 counterService.addCounter(counter)
                 showSheet = false

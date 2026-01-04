@@ -24,15 +24,7 @@ struct EditCounterView: View {
             }
             
             Section("Counter"){
-                TextField("", text: Binding(
-                    get: {String(counter.count)},
-                    set: {newValue in
-                        if let value = Int(newValue) {
-                            counter.count = value <= 0 ? 0 : value
-                        }
-                    }
-                ))
-                    .keyboardType(.numberPad)
+                CounterStepperField(counter: counter, title: "count")
             }
             Button("Delete Counter", role: .destructive){
                 showConfirmation = true
