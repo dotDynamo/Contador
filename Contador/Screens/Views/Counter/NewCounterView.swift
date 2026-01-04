@@ -7,33 +7,29 @@
 
 import SwiftUI
 
+
+
 struct NewCounterView: View {
     var counterService: CounterService
     @Binding var showSheet: Bool
     @Bindable var counter: Counter
-    
+    @FocusState var isFocused: Field?
     var hasName: Bool {
         counter.name.isEmpty
+    }
+    var isCounterFocused: Bool {
+        isFocused == .counter
     }
     
     var body: some View {
         Form{
             TextField("", text: $counter.name, prompt: Text("Counter name"))
+                .focused($isFocused, equals: .name)
+                .onSubmit { isFocused = .description}
             TextField("", text: $counter.subtitle, prompt: Text("Counter description"))
-            HStack(spacing:20){
-                Text("Initial count")
-                TextField("", text: Binding(
-                    get: {String(counter.count)},
-                    set: {newValue in
-                        if let value = Int(newValue) {
-                            counter.count = value <= 0 ? 0 : value
-                        }
-                    }
-                ))
-                    .keyboardType(.numberPad)
-                Stepper("", value: $counter.count, in: 0...1000)
-                    .labelsHidden()
-            }
+                .focused($isFocused, equals: .description)
+                .onSubmit { isFocused = .counter}
+            CounterStepperField(counter: counter, focusState: _isFocused, title: "Initial count")
             Button("Add new counter"){
                 counterService.addCounter(counter)
                 showSheet = false
@@ -41,6 +37,9 @@ struct NewCounterView: View {
         }
         .navigationTitle("New counter")
         .navigationBarTitleDisplayMode(.automatic)
+        .onAppear(){
+            isFocused = .name
+        }
     }
 }
 
