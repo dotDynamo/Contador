@@ -5,10 +5,12 @@
 //  Created by Diego Herrera on 2026/01/02.
 //
 
+import SwiftData
 import SwiftUI
 
 struct EditCounterView: View {
     @Environment(\.dismiss) private var dismiss
+    @Query(sort: \CounterGroup.name) private var groups: [CounterGroup]
     
     @Bindable var counter: Counter
     
@@ -19,6 +21,7 @@ struct EditCounterView: View {
     @State private var showConfirmation: Bool = false
     
     @FocusState var isFocused: Field?
+    @State var newGroup: CounterGroup?
     
     var body: some View {
         Form{
@@ -28,11 +31,20 @@ struct EditCounterView: View {
                             .foregroundStyle(.red))
                 .focused($isFocused, equals: .name)
                 .onSubmit { isFocused = .description }
-                
-                
                 TextField("", text: $counter.subtitle)
                     .focused($isFocused, equals: .description)
                     .onSubmit{ isFocused = .counter}
+                Picker("Group", selection: $newGroup){
+                    ForEach(groups){ group in
+                        Text(group.name).tag(group)
+                    }
+                }.onChange(of: newGroup){
+                    if newGroup != nil && group != newGroup{
+                        group.counters = group.counters.filter{ $0 != counter}
+                        newGroup?.counters.append(counter)
+                        dismiss()
+                    }
+                }
             }
             
             Section("Counter"){
@@ -50,6 +62,9 @@ struct EditCounterView: View {
         }
         .navigationBarBackButtonHidden(counter.name.isEmpty ? true : false)
         .navigationTitle("Edit Counter")
+        .onAppear(){
+            newGroup = group
+        }
     }
 }
 
