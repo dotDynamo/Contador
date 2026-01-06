@@ -16,23 +16,26 @@ struct GroupListingScreen: View {
     
     let counterService: CounterService
     
+    @State var defaultGroup: CounterGroup?
+    
     var body: some View {
         NavigationStack{
             VStack{
                 List{
-                    ForEach(groups){ group in 
-                        NavigationLink(value: group){
-                            Text(group.name)
+                    if defaultGroup != nil{
+                        NavigationLink(value: defaultGroup){
+                            Text(defaultGroup!.name)
                         }
-                        .swipeActions(edge: .trailing) {
-                            if !group.isDefault {
-                                Button(role: .destructive) {
-                                    counterService.deleteGroup(group)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
+                    }
+                    ForEach(groups){ group in
+                        if !group.isDefault {
+                            NavigationLink(value: group){
+                                Text(group.name)
                             }
                         }
+                    }
+                    .onDelete { indexSet in
+                                    indexSet.map { groups[$0] }.forEach(counterService.deleteGroup)
                     }
                 }.navigationDestination(for: CounterGroup.self){ group in
                     CounterListingScreen(group: group, counters: group.counters, counterService: counterService)
@@ -44,6 +47,9 @@ struct GroupListingScreen: View {
                 NavigationStack{
                     NewCounterGroupView(counterService: counterService, showSheet: $showNewCounterSheet, counterGroup: CounterGroup())
                 }
+            }
+            .onAppear(){
+                defaultGroup = counterService.getDefaultGroup()
             }
         }
     }
