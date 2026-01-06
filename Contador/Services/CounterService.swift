@@ -26,6 +26,11 @@ struct CounterService {
         modelContext.insert(group)
     }
     func deleteGroup(_ group: CounterGroup) -> Void{
+        let noGroup = try? modelContext.fetch(FetchDescriptor<CounterGroup>(predicate: #Predicate{$0.name == "No group"}))[0]
+        for counter in group.counters {
+            noGroup?.counters.append(counter)
+        }
+        group.counters.removeAll()
         modelContext.delete(group)
     }
     
