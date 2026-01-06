@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -15,7 +16,18 @@ struct ContentView: View {
     }
     
     var body: some View {
-        CounterListingScreen(counterService: counterService)
+        GroupListingScreen(counterService: counterService)
+            .task {
+                checkGroups()
+            }
+    }
+    
+    @MainActor
+    func checkGroups(){
+        if let existingGroups: [CounterGroup] = try? modelContext.fetch(FetchDescriptor<CounterGroup>(sortBy: [])), existingGroups.isEmpty {
+            let defaultGroup = CounterGroup(name: "No group", isDefault: true)
+            modelContext.insert(defaultGroup)
+        }
     }
 }
 

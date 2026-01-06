@@ -14,6 +14,8 @@ struct EditCounterView: View {
     
     var counterService: CounterService
     
+    let group: CounterGroup
+    
     @State private var showConfirmation: Bool = false
     
     @FocusState var isFocused: Field?
@@ -41,7 +43,7 @@ struct EditCounterView: View {
             }.confirmationDialog("Confirm", isPresented: $showConfirmation){
                 Button("Cancel"){ showConfirmation = false}
                 Button("Delete", role: .destructive) {
-                    counterService.deleteCounter(counter)
+                    counterService.deleteCounter(counter, from: group)
                     dismiss()
                 }
             }
@@ -55,5 +57,5 @@ struct EditCounterView: View {
     @Previewable @Environment(\.modelContext) var modelContext
     let counterService = CounterService(modelContext: modelContext)
     EditCounterView(counter: Counter(name: "Ejemplo para editar"),
-                    counterService: counterService)
+                    counterService: counterService, group: CounterGroup(name: "Grupo"))
 }
