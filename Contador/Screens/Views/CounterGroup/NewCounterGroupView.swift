@@ -13,6 +13,9 @@ struct NewCounterGroupView: View {
     @Binding var showSheet: Bool
     @Bindable var counterGroup: CounterGroup
     @FocusState var isFocused: Field?
+    
+    @State var errorPrompt: String = "Title must be provided"
+    
     var hasName: Bool{
         if !counterGroup.name.isEmpty && counterGroup.name.count < 30 { false }
         else { true }
@@ -20,13 +23,17 @@ struct NewCounterGroupView: View {
 
     var body: some View {
         Form{
-            TextField("Nuevo nombre del grupo", text: $counterGroup.name)
+            TextField("", text: $counterGroup.name,
+                      prompt: Text(errorPrompt)
+                .foregroundStyle(errorPrompt.isEmpty ? .gray : .red))
             Button("Create group"){
                 if counterService.checkName(counterGroup.name){
                     counterService.addGroup(counterGroup)
                     showSheet = false
+                    errorPrompt = ""
                 }else{
-                    counterGroup.name = "Pene"
+                    counterGroup.name = ""
+                    errorPrompt = "Title has to be unique"
                 }
             }
             .disabled(hasName)

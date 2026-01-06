@@ -25,14 +25,14 @@ struct GroupListingScreen: View {
                             Text(group.name)
                         }
                         .swipeActions(edge: .trailing) {
-                                    if !group.isDefault {
-                                        Button(role: .destructive) {
-                                            counterService.deleteGroup(group)
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
-                                        }
-                                    }
+                            if !group.isDefault {
+                                Button(role: .destructive) {
+                                    counterService.deleteGroup(group)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
                                 }
+                            }
+                        }
                     }
                 }.navigationDestination(for: CounterGroup.self){ group in
                     CounterListingScreen(group: group, counters: group.counters, counterService: counterService)

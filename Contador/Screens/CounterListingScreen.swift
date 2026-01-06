@@ -8,8 +8,6 @@ import SwiftData
 import SwiftUI
 
 struct CounterListingScreen: View {
-    //@Query(sort: \Counter.name) private var counters: [Counter]
-    
     @State var showNewCounterSheet: Bool = false
     
     let group: CounterGroup
