@@ -34,7 +34,7 @@ struct GroupListingScreen: View {
                             } else { selectedGroup = defaultGroup}
                         } label: {
                             HStack {
-                                Text(defaultGroup!.name)
+                                Text(defaultGroup!.name).foregroundStyle(.white)
                                 if defaultGroup!.isPrivate {
                                     Spacer()
                                     Image(systemName: "lock").foregroundStyle(.gray)
@@ -53,7 +53,7 @@ struct GroupListingScreen: View {
                                 } else { selectedGroup = group}
                             } label: {
                                 HStack {
-                                    Text(group.name)
+                                    Text(group.name).foregroundStyle(.white)
                                     if group.isPrivate {
                                         Spacer()
                                         Image(systemName: "lock").foregroundStyle(.gray)
