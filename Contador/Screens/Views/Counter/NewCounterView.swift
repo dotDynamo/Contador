@@ -21,6 +21,8 @@ struct NewCounterView: View {
         isFocused == .counter
     }
     
+    let group: CounterGroup
+    
     var body: some View {
         Form{
             TextField("", text: $counter.name, prompt: Text("Counter name"))
@@ -28,10 +30,13 @@ struct NewCounterView: View {
                 .onSubmit { isFocused = .description}
             TextField("", text: $counter.subtitle, prompt: Text("Counter description"))
                 .focused($isFocused, equals: .description)
-                .onSubmit { isFocused = .counter}
+                .onSubmit { isFocused = .emoji}
+            TextField("", text: $counter.emoji, prompt: Text("Emoji"))
+                .focused($isFocused, equals: .emoji)
+                .onSubmit { isFocused = .counter }
             CounterStepperField(counter: counter, focusState: _isFocused, title: "Initial count")
             Button("Add new counter"){
-                counterService.addCounter(counter)
+                counterService.addCounter(counter, group: group)
                 showSheet = false
             }.disabled(hasName)
         }
@@ -48,5 +53,5 @@ struct NewCounterView: View {
     @Previewable @State var showSheet: Bool = true
     NewCounterView(
         counterService: CounterService(modelContext: modelContext), showSheet: $showSheet,
-        counter: Counter(name: ""))
+        counter: Counter(name: ""), group: CounterGroup(name: "Grupo 1"))
 }
