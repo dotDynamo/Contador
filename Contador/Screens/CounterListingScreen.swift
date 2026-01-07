@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CounterListingScreen: View {
     @State var showNewCounterSheet: Bool = false
+    @State var showConfirmation: Bool = false
     
     let group: CounterGroup
     var counters: [Counter]
@@ -37,9 +38,13 @@ struct CounterListingScreen: View {
             }
             
         }
-        .navigationTitle("Contador")
+        .navigationTitle(group.name)
+        .navigationSubtitle(group.isPrivate ? "Private" : "Public")
         .toolbar{
             Button("New Counter"){ showNewCounterSheet = true }
+            Menu("..."){
+                Button("Change visibility"){ group.isPrivate.toggle() }
+            }
         }
         .sheet(isPresented: $showNewCounterSheet){
             NavigationStack{

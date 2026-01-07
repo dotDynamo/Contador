@@ -13,11 +13,13 @@ import SwiftUI
 class CounterGroup {
     var name: String
     @Relationship var counters: [Counter]
+    var isPrivate: Bool
     var isDefault: Bool
     
-    init(name: String = "", isDefault: Bool = false ) {
+    init(name: String = "", isDefault: Bool = false, isPrivate: Bool = false ) {
         self.name = name
         self.counters = []
+        self.isPrivate = isPrivate
         self.isDefault = isDefault
     }
 }

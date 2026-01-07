@@ -26,6 +26,11 @@ struct NewCounterGroupView: View {
             TextField("", text: $counterGroup.name,
                       prompt: Text(errorPrompt)
                 .foregroundStyle(errorPrompt.isEmpty ? .gray : .red))
+            Toggle(isOn: $counterGroup.isPrivate){
+                HStack{
+                    Text("Make private")
+                }
+            }
             Button("Create group"){
                 if counterService.checkName(counterGroup.name){
                     counterService.addGroup(counterGroup)

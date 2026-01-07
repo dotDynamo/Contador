@@ -15,8 +15,13 @@ struct ContentView: View {
         CounterService(modelContext: modelContext)
     }
     
+    var biometricService: BiometricService {
+        BiometricService()
+    }
+    
     var body: some View {
-        GroupListingScreen(counterService: counterService)
+        GroupListingScreen(counterService: counterService,
+                           biometricService: biometricService)
             .task {
                 checkGroups()
             }
@@ -25,8 +30,7 @@ struct ContentView: View {
     @MainActor
     func checkGroups(){
         if let existingGroups: [CounterGroup] = try? modelContext.fetch(FetchDescriptor<CounterGroup>(sortBy: [])), existingGroups.isEmpty {
-            let defaultGroup = CounterGroup(name: "No group", isDefault: true)
-            modelContext.insert(defaultGroup)
+            modelContext.insert(CounterGroup(name: "No group", isDefault: true))
         }
     }
 }

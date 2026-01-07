@@ -45,7 +45,10 @@ struct CounterService {
     }
     
     func getDefaultGroup() -> CounterGroup {
-        let noGroup = try? modelContext.fetch(FetchDescriptor<CounterGroup>(predicate: #Predicate{$0.name == "No group"}))[0]
-        return noGroup!
+        let groups = try? modelContext.fetch(FetchDescriptor<CounterGroup>(predicate: #Predicate{$0.name == "No group"}))
+        if !groups!.isEmpty{
+            return groups![0]
+        }
+        return CounterGroup(name: "If you see this group delete the app")
     }
 }
