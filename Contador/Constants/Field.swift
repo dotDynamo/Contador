@@ -8,6 +8,7 @@
 enum Field: Hashable{
     case name
     case description
+    case emoji
     case counter
     case noField
 }

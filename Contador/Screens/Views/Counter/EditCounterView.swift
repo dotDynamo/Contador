@@ -31,9 +31,12 @@ struct EditCounterView: View {
                             .foregroundStyle(.red))
                 .focused($isFocused, equals: .name)
                 .onSubmit { isFocused = .description }
-                TextField("", text: $counter.subtitle)
+                TextField("", text: $counter.subtitle, prompt: Text("Description"))
                     .focused($isFocused, equals: .description)
-                    .onSubmit{ isFocused = .counter}
+                    .onSubmit{ isFocused = .emoji}
+                TextField("", text: $counter.emoji, prompt: Text("Emoji"))
+                    .focused($isFocused, equals: .emoji)
+                    .onSubmit { isFocused = .counter }
                 Picker("Group", selection: $newGroup){
                     ForEach(groups){ group in
                         Text(group.name).tag(group)

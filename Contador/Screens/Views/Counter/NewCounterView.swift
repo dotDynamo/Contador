@@ -30,7 +30,10 @@ struct NewCounterView: View {
                 .onSubmit { isFocused = .description}
             TextField("", text: $counter.subtitle, prompt: Text("Counter description"))
                 .focused($isFocused, equals: .description)
-                .onSubmit { isFocused = .counter}
+                .onSubmit { isFocused = .emoji}
+            TextField("", text: $counter.emoji, prompt: Text("Emoji"))
+                .focused($isFocused, equals: .emoji)
+                .onSubmit { isFocused = .counter }
             CounterStepperField(counter: counter, focusState: _isFocused, title: "Initial count")
             Button("Add new counter"){
                 counterService.addCounter(counter, group: group)
