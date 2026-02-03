@@ -20,9 +20,8 @@ struct CounterListingScreen: View {
             if !counters.isEmpty{
                 List{
                     ForEach(counters) { counter in
-                        NavigationLink(value: counter){
-                            CounterView(
-                                counter: counter)
+                        NavigationLink(destination: EditCounterView(counter: counter, counterService: counterService, group: group)){
+                            CounterView(counter: counter)
                         }
                     }
                     .onDelete{ indexSet in
@@ -30,8 +29,6 @@ struct CounterListingScreen: View {
                             counterService.deleteCounter(counters[index], from: group)
                         }
                     }
-                }.navigationDestination(for: Counter.self){counter in
-                    EditCounterView(counter: counter, counterService: counterService, group: group)
                 }
             }else {
                 Text("No counters yet.\nUse the New Counter button to add one.")

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct GroupListingScreen: View {
     @Query(sort: \CounterGroup.name) private var groups: [CounterGroup]
-    @Environment(\.modelContext) private var modelContext
     
     @State var showNewCounterSheet: Bool = false
     
